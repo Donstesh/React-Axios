@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     setAppState({ loading: true });
-    const apiUrl = 'https://api.github.com/users/hacktivist123/repos';
+    const apiUrl = 'https://api.github.com/users/Donstesh/repos';
     axios.get(apiUrl).then((repos) => {
       const allRepos = repos.data;
       setAppState({ loading: false, repos: allRepos });
@@ -23,7 +23,7 @@ function App() {
   return (
     <div className='App'>
       <div className='container'>
-        <h1>My Repositories</h1>
+        <h1>My Github Repositories</h1>
       </div>
       <div className='repo-container'>
         <ListLoading isLoading={appState.loading} repos={appState.repos} />
