@@ -1,25 +1,43 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import list from './components/list';
+import withlistloading from './components/withlistloading';
+import axios from 'axios';
 
 function App() {
+  const ListLoading = withlistloading(list);
+  const [appState, setAppState] = useState({
+    loading: false,
+    repos: null,
+  });
+
+  useEffect(() => {
+    setAppState({ loading: true });
+    const apiUrl = 'https://api.github.com/users/hacktivist123/repos';
+    axios.get(apiUrl).then((repos) => {
+      const allRepos = repos.data;
+      setAppState({ loading: false, repos: allRepos });
+    });
+  }, [setAppState]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='container'>
+        <h1>My Repositories</h1>
+      </div>
+      <div className='repo-container'>
+        <ListLoading isLoading={appState.loading} repos={appState.repos} />
+      </div>
+      <footer>
+        <div className='footer'>
+          Built{' '}
+          <span role='img' aria-label='love'>
+            💚
+          </span>{' '}
+          with by Stephen Sienko
+        </div>
+      </footer>
     </div>
   );
 }
-
 export default App;
